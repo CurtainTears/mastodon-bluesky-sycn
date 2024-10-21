@@ -89,7 +89,7 @@ class BlueskyToMastodonSyncer:
 
     def convert_bluesky_to_mastodon(self, bluesky_post):
         # 将Bluesky帖子转换为Mastodon格式
-        text = bluesky_post.record.text + '\nfrom bluesky @asukarelic.bsky.social'
+        text = bluesky_post.record.text + '\n\nfrom bluesky @asukarelic.bsky.social'
         media_ids = []
 
         # 处理帖子中的图片

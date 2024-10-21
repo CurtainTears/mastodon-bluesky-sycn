@@ -37,8 +37,8 @@ class MastodonToBlueskySyncer:
                 # self.save_toot(post)  # 保存嘟文到本地文件
                 
                 # 跳过回复、转发、提及或包含链接的嘟文
-                if post.in_reply_to_id is not None or post.reblog is not None or post.mentions or '@' in post.content or post.visibility != 'public':
-                    logging.info(f"跳过Mastodon嘟文 {post.id} (回复、转发、提及或非公开)")
+                if post.in_reply_to_id is not None or post.reblog is not None or post.mentions or post.visibility != 'public':
+                    logging.info(f"跳过Mastodon嘟文 {post.id} (回复、转发、提及或非公开){post.in_reply_to_id}/{post.reblog}/{post.mentions}/{post.visibility}")
                     skipped_count += 1
                     continue
                 
@@ -169,12 +169,23 @@ class MastodonToBlueskySyncer:
 
     def convert_mastodon_to_bluesky(self, mastodon_post):
         # 将Mastodon嘟文转换为Bluesky帖子格式
-        text = re.sub('<[^<]+?>', '', mastodon_post.content)  # 移除HTML标签
+        # 处理html标签
+        text = re.sub(r'<br\s*/?>', '\n', mastodon_post.content, flags=re.IGNORECASE)
+        text = re.sub(r'<[^>]+>', '', text)
+        
+        # 处理HTML实体
+        text = re.sub(r'&nbsp;', ' ', text)
+        text = re.sub(r'&amp;', '&', text)
+        text = re.sub(r'&lt;', '<', text)
+        text = re.sub(r'&gt;', '>', text)
+        
+        # 移除多余的空白行
+        text = re.sub(r'\n\s*\n', '\n\n', text)
         #检查字数是否超过250字
         if len(text) > 250:
             text = text[:250] + '...'
         
-        text = text + '\nfrom mastodon @asuka@mastodon.asuka.today'
+        text = text + '\n\nfrom mastodon @asuka@mastodon.asuka.today'
 
         bluesky_post = {
             '$type': 'app.bsky.feed.post',
