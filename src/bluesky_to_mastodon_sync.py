@@ -35,15 +35,15 @@ class BlueskyToMastodonSyncer:
                     continue
                 
                 # 检查这个Bluesky帖子是否是从Mastodon同步过来的
-                if any(post_view.cid == pair[1] for pair in self.sync_status_manager.get_sync_status()):
-                    logging.info(f"跳过Bluesky帖子 {post_view.cid} (从Mastodon同步而来)")
-                    skipped_count += 1
-                    continue
+                # if any(post_view.cid == pair[1] for pair in self.sync_status_manager.get_sync_status()):
+                #    logging.info(f"跳过Bluesky帖子 {post_view.cid} (从Mastodon同步而来)")
+                #    skipped_count += 1
+                #    continue
                 
                 logging.info(f"正在处理Bluesky帖子 {post_view.cid}:")
                 logging.info(f"  内容: {post_view.record.text[:100]}...")
                 
-                self.save_post(post_view)  # 保存帖子到本地文件
+                # self.save_post(post_view)  # 保存帖子到本地文件
                 
                 # 如果帖子未同步，则进行同步
                 if not self.sync_status_manager.is_synced(post_view.cid, 'bluesky_to_mastodon'):

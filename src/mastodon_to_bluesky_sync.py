@@ -34,7 +34,7 @@ class MastodonToBlueskySyncer:
                 logging.info(f"  URL: {post.url}")
                 logging.info(f"  媒体附件数: {len(post.media_attachments)}")
                 
-                self.save_toot(post)  # 保存嘟文到本地文件
+                # self.save_toot(post)  # 保存嘟文到本地文件
                 
                 # 跳过回复、转发、提及或包含链接的嘟文
                 if post.in_reply_to_id is not None or post.reblog is not None or post.mentions or '@' in post.content or post.visibility != 'public':
