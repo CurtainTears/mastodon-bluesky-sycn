@@ -8,7 +8,7 @@ from mastodon import Mastodon
 from atproto import Client
 from atproto_client.exceptions import InvokeTimeoutError
 from mastodon_to_bluesky_sync import MastodonToBlueskySyncer
-from bluesky_to_mastodon_sync import BlueskyToMastodonSyncer
+from src.bluesky_to_mastodon_sync import BlueskyToMastodonSyncer
 from sync_status_manager import SyncStatusManager
 import httpx
 
