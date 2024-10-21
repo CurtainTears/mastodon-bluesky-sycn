@@ -9,7 +9,7 @@ on:
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/mastodon-bluesky-sync
-  GHCR_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/mastodon-bluesky-sync
+  GHCR_IMAGE_NAME: ghcr.io/${{ github.repository_owner | lower }}/mastodon-bluesky-sync
 
 jobs:
   build-and-push:
