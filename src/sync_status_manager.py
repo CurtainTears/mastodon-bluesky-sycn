@@ -3,7 +3,7 @@ import os
 import logging
 
 class SyncStatusManager:
-    def __init__(self, filename='sync_status.json'):
+    def __init__(self, filename='data/sync_status.json'):
         """
         初始化同步状态管理器
         :param filename: 存储同步状态的文件名
