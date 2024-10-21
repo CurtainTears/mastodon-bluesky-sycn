@@ -9,7 +9,6 @@ on:
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/mastodon-bluesky-sync
-  GHCR_IMAGE_NAME: ghcr.io/${{ github.repository_owner | lower }}/mastodon-bluesky-sync
 
 jobs:
   build-and-push:
@@ -22,6 +21,9 @@ jobs:
     - name: 提取版本号
       id: get_version
       run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: 设置 GHCR 镜像名称
+      run: echo "GHCR_IMAGE_NAME=ghcr.io/$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')/mastodon-bluesky-sync" >> $GITHUB_ENV
 
     - name: 登录到 Docker Hub
       uses: docker/login-action@v2
