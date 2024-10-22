@@ -31,8 +31,15 @@ class BlueskyToMastodonSyncer:
             skipped_count = 0
             for post in bluesky_posts:
                 post_view = post.post
-                # 跳过引用和转发的帖子
-                if post_view.record.embed.record is not None or post_view.reason is not None:
+                # 更安全的检查方式
+                has_embed_record = (hasattr(post_view, 'record') and 
+                                    hasattr(post_view.record, 'embed') and 
+                                    post_view.record.embed is not None and 
+                                    hasattr(post_view.record.embed, 'record') and 
+                                    post_view.record.embed.record is not None)
+                has_reason = hasattr(post_view, 'reason') and post_view.reason is not None
+
+                if has_embed_record or has_reason:
                     logging.info(f"跳过Bluesky帖子 {post_view.cid} (包含提及或转发)")
                     skipped_count += 1
                     continue
