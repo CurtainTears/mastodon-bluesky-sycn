@@ -30,7 +30,11 @@ class SyncTool:
         )
 
         # 初始化Bluesky客户端
-        self.bluesky = Client()
+        bluesky_instance_url = os.environ.get('BLUESKY_INSTANCE_URL', '')
+        if bluesky_instance_url == '':
+            self.bluesky = Client()
+        else:
+            self.bluesky = Client(bluesky_instance_url)
         self.token_file = 'data/bluesky_token.json'
         self.initialize_bluesky_client()
         

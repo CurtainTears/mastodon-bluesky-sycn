@@ -53,6 +53,7 @@ docker run
   -d
   -e 'MASTODON_ACCESS_TOKEN'='xxxx'
   -e 'MASTODON_INSTANCE_URL'='https://example.com'
+  -e 'BLUESKY_INSTANCE_URL'=''
   -e 'BLUESKY_USERNAME'='xxx.bsky.social'
   -e 'BLUESKY_PASSWORD'=''
   -e 'SYNC_INTERVAL'='300'
@@ -66,6 +67,7 @@ docker run
 ## 必填
 - MASTODON_ACCESS_TOKEN= #你的Mastodon访问令牌
 - MASTODON_INSTANCE_URL= #你的Mastodon实例URL
+- BLUESKY_INSTANCE_URL= #你的Bluesky实例URL，留空则使用官方的Bluesky实例
 - BLUESKY_USERNAME= #你的Bluesky用户名
 - BLUESKY_PASSWORD= #你的Bluesky密码,应用专用密码
 - SYNC_INTERVAL=300 #同步间隔，单位秒，默认5分钟
