@@ -31,17 +31,11 @@ class BlueskyToMastodonSyncer:
             skipped_count = 0
             for post in bluesky_posts:
                 post_view = post.post
-                # 跳过包含@的帖子（可能是回复或提及）
-                if '@' in post_view.record.text:
-                    logging.info(f"跳过Bluesky帖子 {post_view.cid} (包含提及)")
+                # 跳过引用和转发的帖子
+                if post_view.record.embed.record is not None or post_view.reason is not None:
+                    logging.info(f"跳过Bluesky帖子 {post_view.cid} (包含提及或转发)")
                     skipped_count += 1
                     continue
-                
-                # 检查这个Bluesky帖子是否是从Mastodon同步过来的
-                # if any(post_view.cid == pair[1] for pair in self.sync_status_manager.get_sync_status()):
-                #    logging.info(f"跳过Bluesky帖子 {post_view.cid} (从Mastodon同步而来)")
-                #    skipped_count += 1
-                #    continue
                 
                 logging.info(f"正在处理Bluesky帖子 {post_view.cid}:")
                 logging.info(f"  内容: {post_view.record.text[:100]}...")
