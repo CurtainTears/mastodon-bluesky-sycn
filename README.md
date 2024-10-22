@@ -48,11 +48,18 @@ python src/main.py
 ```
 #拉取镜像
 docker pull ghcr.io/curtaintears/bluesky-to-mastodon-sync:latest
-#配置环境变量
-mkdir bluesky-to-mastodon-sync
-cp .env.example .env
 #运行
-docker run -d --env-file .env ghcr.io/curtaintears/bluesky-to-mastodon-sync:latest
+docker run
+  -d
+  -e 'MASTODON_ACCESS_TOKEN'='xxxx'
+  -e 'MASTODON_INSTANCE_URL'='https://example.com'
+  -e 'BLUESKY_USERNAME'='xxx.bsky.social'
+  -e 'BLUESKY_PASSWORD'=''
+  -e 'SYNC_INTERVAL'='300'
+  -e 'FROM_MASTODON_AT'='@xxx@example.com'
+  -e 'FROM_BLUESKY_AT'='@xxx.bsky.social'
+  -v ./data:/app/data:'rw' 
+  'muhosia/mastodon-bluesky-sync:latest'
 ```
 # 环境变量说明
 
