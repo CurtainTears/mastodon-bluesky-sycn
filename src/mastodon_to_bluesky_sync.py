@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()  # 加载环境变量
+
 import os
 import json
 import logging
@@ -185,7 +188,9 @@ class MastodonToBlueskySyncer:
         if len(text) > 250:
             text = text[:250] + '...'
         
-        text = text + '\n\nfrom mastodon @asuka@mastodon.asuka.today'
+        from_mastodon_at = os.environ.get('FROM_MASTODON_AT', '')
+        
+        text = text + '\n\nfrom mastodon' + from_mastodon_at
 
         bluesky_post = {
             '$type': 'app.bsky.feed.post',

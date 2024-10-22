@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()  # 加载环境变量
+
 import os
 import json
 import logging
@@ -89,7 +92,8 @@ class BlueskyToMastodonSyncer:
 
     def convert_bluesky_to_mastodon(self, bluesky_post):
         # 将Bluesky帖子转换为Mastodon格式
-        text = bluesky_post.record.text + '\n\nfrom bluesky @asukarelic.bsky.social'
+        from_bluesky_at = os.environ.get('FROM_BLUESKY_AT', '')        
+        text = bluesky_post.record.text + '\n\nfrom bluesky' + from_bluesky_at
         media_ids = []
 
         # 处理帖子中的图片

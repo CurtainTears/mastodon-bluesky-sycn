@@ -54,3 +54,15 @@ cp .env.example .env
 #运行
 docker run -d --env-file .env ghcr.io/curtaintears/bluesky-to-mastodon-sync:latest
 ```
+# 环境变量说明
+
+## 必填
+- MASTODON_ACCESS_TOKEN= #你的Mastodon访问令牌
+- MASTODON_INSTANCE_URL= #你的Mastodon实例URL
+- BLUESKY_USERNAME= #你的Bluesky用户名
+- BLUESKY_PASSWORD= #你的Bluesky密码,应用专用密码
+- SYNC_INTERVAL=300 #同步间隔，单位秒，默认5分钟
+
+## 可选
+- FROM_MASTODON_AT= #从Mastodon同步到Bluesky时，添加的@用户名
+- FROM_BLUESKY_AT= #从Bluesky同步到Mastodon时，添加的@用户名
