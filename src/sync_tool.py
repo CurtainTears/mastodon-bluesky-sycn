@@ -30,11 +30,7 @@ class SyncTool:
         )
 
         # 初始化Bluesky客户端
-        bluesky_instance_url = os.environ.get('BLUESKY_INSTANCE_URL', '')
-        if bluesky_instance_url == '':
-            self.bluesky = Client()
-        else:
-            self.bluesky = Client(bluesky_instance_url)
+        
         self.token_file = 'data/bluesky_token.json'
         self.initialize_bluesky_client()
         
@@ -57,24 +53,52 @@ class SyncTool:
         except FileNotFoundError:
             return None
 
+    def clear_token_file(self):
+        if os.path.exists(self.token_file):
+            os.remove(self.token_file)
+            logging.info("已删除本地存储的令牌文件")
+    
     def initialize_bluesky_client(self):
+        # 尝试使用保存的令牌恢复Bluesky会话
+        login_result = self.bluesky_login_with_token()
+        
+        # 如果恢复失败，则重新登录
+        if not login_result:
+            self.login_bluesky()
+
+    def bluesky_login_with_token(self):
+        bluesky_instance_url = os.environ.get('BLUESKY_INSTANCE_URL', '')
+        if bluesky_instance_url == '':
+            self.bluesky = Client()
+        else:
+            self.bluesky = Client(bluesky_instance_url)
+        
         token = self.load_token()
         
         if token:
             try:
-                self.bluesky.login(None, None, token)
+                self.bluesky.login(session_string=token)
                 logging.info("使用保存的令牌恢复Bluesky会话成功")
-                return
+                return True
             except Exception as e:
                 logging.warning(f"使用保存的令牌恢复Bluesky会话失败: {str(e)}")
-
-        self.login_bluesky()
+                self.clear_token_file()
+                return False
+        # 如果令牌不存在，则重新登录
+        else:
+            return False
 
     def login_bluesky(self):
+        bluesky_instance_url = os.environ.get('BLUESKY_INSTANCE_URL', '')
+        if bluesky_instance_url == '':
+            self.bluesky = Client()
+        else:
+            self.bluesky = Client(bluesky_instance_url)
         bluesky_username = os.environ.get('BLUESKY_USERNAME', '')
         bluesky_password = os.environ.get('BLUESKY_PASSWORD', '')
         logging.info(f"Bluesky用户名: {bluesky_username}")
         logging.info(f"Bluesky密码: {bluesky_password}")
+        
         
         try:
             self.bluesky.login(bluesky_username, bluesky_password)
