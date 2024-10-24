@@ -190,9 +190,9 @@ class MastodonToBlueskySyncer:
         
         if from_mastodon_at:
             if len(text) > 300 - len(from_mastodon_at+'\n\nfrom mastodon'):
-                text = text[:300 - len(from_mastodon_at+'\n\nfrom mastodon'+'...')] + '...' + '\n\nfrom mastodon' + from_mastodon_at
+                text = text[:300 - len(from_mastodon_at+'\n\nfrom mastodon'+'...')] + '...' + '\n\nfrom mastodon ' + from_mastodon_at
             else:
-                text = text + '\n\nfrom mastodon' + from_mastodon_at
+                text = text + '\n\nfrom mastodon ' + from_mastodon_at
         else:
             if len(text) > 300:
                 text = text[:300 - len('...')] + '...'

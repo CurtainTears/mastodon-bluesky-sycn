@@ -96,7 +96,7 @@ class BlueskyToMastodonSyncer:
         from_bluesky_at = os.environ.get('FROM_BLUESKY_AT', '')
 
         if from_bluesky_at:
-            text = bluesky_post.record.text + '\n\nfrom bluesky' + from_bluesky_at
+            text = bluesky_post.record.text + '\n\nfrom bluesky ' + from_bluesky_at
         else:
             text = bluesky_post.record.text
         
