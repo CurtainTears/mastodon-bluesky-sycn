@@ -173,7 +173,7 @@ class MastodonToBlueskySyncer:
     def convert_mastodon_to_bluesky(self, mastodon_post):
         # 将Mastodon嘟文转换为Bluesky帖子格式
         # 处理html标签
-        text = re.sub(r'<br\s*/?>', '\n', mastodon_post.content, flags=re.IGNORECASE)
+        text = re.sub(r'<br\s*/?>', '\n\n', mastodon_post.content, flags=re.IGNORECASE)
         text = re.sub(r'<[^>]+>', '', text)
         
         # 处理HTML实体
@@ -183,7 +183,7 @@ class MastodonToBlueskySyncer:
         text = re.sub(r'&gt;', '>', text)
         
         # 移除多余的空白行
-        text = re.sub(r'\n\s*\n', '\n\n', text)
+        # text = re.sub(r'\n\s*\n', '\n\n', text)
 
         # 检查字数是否超过300字
         from_mastodon_at = os.environ.get('FROM_MASTODON_AT', '')
