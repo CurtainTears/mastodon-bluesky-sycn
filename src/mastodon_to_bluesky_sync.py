@@ -184,14 +184,19 @@ class MastodonToBlueskySyncer:
         
         # 移除多余的空白行
         text = re.sub(r'\n\s*\n', '\n\n', text)
-        #检查字数是否超过250字
-        if len(text) > 250:
-            text = text[:250] + '...'
-        
+
+        # 检查字数是否超过300字
         from_mastodon_at = os.environ.get('FROM_MASTODON_AT', '')
         
-        text = text + '\n\nfrom mastodon' + from_mastodon_at
-
+        if from_mastodon_at:
+            if len(text) > 300 - len(from_mastodon_at+'\n\nfrom mastodon'):
+                text = text[:300 - len(from_mastodon_at+'\n\nfrom mastodon'+'...')] + '...' + '\n\nfrom mastodon' + from_mastodon_at
+            else:
+                text = text + '\n\nfrom mastodon' + from_mastodon_at
+        else:
+            if len(text) > 300:
+                text = text[:300 - len('...')] + '...'
+        
         bluesky_post = {
             '$type': 'app.bsky.feed.post',
             'text': text,
