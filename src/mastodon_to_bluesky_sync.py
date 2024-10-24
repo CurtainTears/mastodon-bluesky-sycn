@@ -173,7 +173,8 @@ class MastodonToBlueskySyncer:
     def convert_mastodon_to_bluesky(self, mastodon_post):
         # 将Mastodon嘟文转换为Bluesky帖子格式
         # 处理html标签
-        text = re.sub(r'<br\s*/?>', '\n\n', mastodon_post.content, flags=re.IGNORECASE)
+        text = re.sub(r'<br\s*/?>', '\n', mastodon_post.content, flags=re.IGNORECASE)
+        text = re.sub(r'</p>', '\n', text, flags=re.IGNORECASE)
         text = re.sub(r'<[^>]+>', '', text)
         
         # 处理HTML实体
